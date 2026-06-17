@@ -1,3 +1,4 @@
+const nodemailer = require("nodemailer");
 const generateSensorData = require("./simulator");
 const express = require("express");
 const cors = require("cors");
@@ -105,6 +106,17 @@ app.get("/api/simulate", (req, res) => {
 
 app.post("/api/process", (req, res) => {
   const sensorData = generateSensorData();
+  
+  let alert = "Normal";
+  let recommendation = "Device operating normally";
+
+  if (sensorData.temperature > 40) {
+    alert = "High Temperature Warning";
+    recommendation = "Check cooling system";
+  } else if (sensorData.humidity > 80) {
+    alert = "High Humidity Warning";
+    recommendation = "Inspect environment conditions";
+  }
 
   const sql = `
     INSERT INTO ProcessingHistory
@@ -131,10 +143,12 @@ app.post("/api/process", (req, res) => {
       }
 
       res.json({
-        success: true,
-        message: "Sensor data processed and saved successfully",
-        data: sensorData
-      });
+  success: true,
+  message: "Sensor data processed and saved successfully",
+  data: sensorData,
+  alert: alert,
+  recommendation: recommendation
+});
     }
   );
 });
@@ -185,6 +199,38 @@ app.get("/api/devices/:id", (req, res) => {
 
     res.json(results[0]);
   });
+});
+
+app.post("/api/send-email", async (req, res) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "varshithakore@gmail.com",
+        pass: "niqd fboj fkrg qebd"
+      }
+    });
+
+    await transporter.sendMail({
+      from: "varshithakore@gmail.com",
+      to: "koresrivarshitha@gmail.com",
+      subject: "IoT Device Alert",
+      text: "Sensor alert generated from IoT Device Simulator."
+    });
+
+    res.json({
+      success: true,
+      message: "Email sent successfully"
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Email sending failed"
+    });
+  }
 });
 
 app.listen(5000, () => {
