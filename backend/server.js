@@ -1,8 +1,12 @@
 const generateSensorData = require("./simulator");
 const express = require("express");
+const cors = require("cors");
 const db = require("./db");
 
+
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 app.use(express.json());
 
@@ -11,27 +15,56 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/devices", (req, res) => {
-  const { deviceName, deviceType, protocol, status } = req.body;
+ const {
+  deviceId,
+  temperature,
+  humidity,
+  voltage,
+  gps,
+  status
+} = req.body;
 
-  const sql =
-    "INSERT INTO Devices (deviceName, deviceType, protocol, status) VALUES (?, ?, ?, ?)";
+if (!deviceId || !temperature || !humidity || !status) {
+  return res.status(400).json({
+    success: false,
+    message: "Required fields missing"
+  });
+}
 
-  db.query(
-    sql,
-    [deviceName, deviceType, protocol, status],
-    (err, result) => {
-      if (err) {
-        return res.status(500).json(err);
-      }
+  const sql = `
+INSERT INTO Devices
+(deviceName, deviceType, protocol, status, temperature, humidity, voltage, gps)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+`;
 
-      res.json({
-        message: "Device created successfully",
-        deviceId: result.insertId,
+db.query(
+  sql,
+  [
+    deviceId,
+    "Sensor",
+    "Simulation",
+    status,
+    temperature,
+    humidity,
+    voltage,
+    gps
+  ],
+  (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error"
       });
     }
-  );
-});
 
+    res.status(201).json({
+      success: true,
+      message: "Device data saved successfully",
+      deviceId: result.insertId
+    });
+  }
+);
+});
 app.get("/api/devices", (req, res) => {
   const { status } = req.query;
 
@@ -50,9 +83,108 @@ app.get("/api/devices", (req, res) => {
   });
 }); 
 
+app.get("/api/history", (req, res) => {
+  const sql = "SELECT * FROM ProcessingHistory";
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error"
+      });
+    }
+
+    res.json(results);
+  });
+});
+
 app.get("/api/simulate", (req, res) => {
     const sensorData = generateSensorData();
     res.json(sensorData);
+});
+
+app.post("/api/process", (req, res) => {
+  const sensorData = generateSensorData();
+
+  const sql = `
+    INSERT INTO ProcessingHistory
+    (temperature, humidity, voltage, latitude, longitude, status)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    sql,
+    [
+      sensorData.temperature,
+      sensorData.humidity,
+      sensorData.voltage,
+      sensorData.latitude,
+      sensorData.longitude,
+      sensorData.status
+    ],
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "Database error"
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Sensor data processed and saved successfully",
+        data: sensorData
+      });
+    }
+  );
+});
+
+  
+
+
+app.put("/api/devices/:id/status", (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const sql = "UPDATE Devices SET status = ? WHERE deviceId = ?";
+
+  db.query(sql, [status, id], (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Status updated successfully"
+    });
+  });
+});
+
+app.get("/api/devices/:id", (req, res) => {
+  const { id } = req.params;
+
+  const sql = "SELECT * FROM Devices WHERE deviceId = ?";
+
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error"
+      });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Device not found"
+      });
+    }
+
+    res.json(results[0]);
+  });
 });
 
 app.listen(5000, () => {
