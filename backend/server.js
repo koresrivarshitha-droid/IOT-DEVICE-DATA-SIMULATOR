@@ -12,20 +12,30 @@ app.use(express.json());
 app.use(express.json());
 
 app.get("/", (req, res) => {
+  
   res.send("IoT Device Simulator Backend Running");
 });
 
 app.post("/api/devices", (req, res) => {
- const {
-  deviceId,
-  temperature,
+
+  console.log("POST /api/devices hit");
+  console.log(req.body);
+
+  const {
+  id,
+  name,
+  type,
+  status,
+  priority,
+  owner,
+  lat,
+  lng,
+  temp,
   humidity,
-  voltage,
-  gps,
-  status
+  voltage
 } = req.body;
 
-if (!deviceId || !temperature || !humidity || !status) {
+if (!id || !temp || !humidity || !status){
   return res.status(400).json({
     success: false,
     message: "Required fields missing"
@@ -41,20 +51,23 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 db.query(
   sql,
   [
-    deviceId,
-    "Sensor",
+    name,
+    type,
     "Simulation",
     status,
-    temperature,
+    temp,
     humidity,
     voltage,
-    gps
+    `${lat},${lng}`
   ],
   (err, result) => {
     if (err) {
+      console.log("DATABASE ERROR:");
+      console.log(err);
+
       return res.status(500).json({
         success: false,
-        message: "Database error"
+        message: err.message
       });
     }
 
@@ -177,6 +190,27 @@ app.put("/api/devices/:id/status", (req, res) => {
   });
 });
 
+app.patch("/api/devices/:id/status", (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const sql = "UPDATE Devices SET status = ? WHERE deviceId = ?";
+
+  db.query(sql, [status, id], (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Database error"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Status updated successfully"
+    });
+  });
+});
+
 app.get("/api/devices/:id", (req, res) => {
   const { id } = req.params;
 
@@ -200,6 +234,40 @@ app.get("/api/devices/:id", (req, res) => {
     res.json(results[0]);
   });
 });
+
+app.delete("/api/devices/:id", (req, res) => {
+  const { id } = req.params;
+
+  console.log("Deleting device:", id);
+
+  const sql = "DELETE FROM Devices WHERE deviceId = ?";
+
+  db.query(sql, [id], (err, result) => {
+
+    console.log("SQL Result:", result);
+    console.log("SQL Error:", err);
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Device not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Device deleted successfully"
+    });
+  });
+});
+console.log("Email route loaded");
 
 app.post("/api/send-email", async (req, res) => {
   try {
@@ -231,6 +299,13 @@ app.post("/api/send-email", async (req, res) => {
       message: "Email sending failed"
     });
   }
+});
+
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "Backend is running"
+  });
 });
 
 app.listen(5000, () => {
