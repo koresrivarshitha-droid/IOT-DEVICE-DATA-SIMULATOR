@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 require("dotenv").config();
+=======
+>>>>>>> 23d36293d6a95ed37cbd5d7cf359b9e884897c00
 const nodemailer = require("nodemailer");
 const generateSensorData = require("./simulator");
 const express = require("express");
@@ -272,6 +275,7 @@ console.log("Email route loaded");
 
 app.post("/api/send-email", async (req, res) => {
   try {
+<<<<<<< HEAD
     const { senderEmail, subjectCategory, messageBody } = req.body;
 
     const transporter = nodemailer.createTransport({
@@ -293,6 +297,21 @@ Sender Email: ${senderEmail}
 Message:
 ${messageBody}
 `
+=======
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "varshithakore@gmail.com",
+        pass: "niqd fboj fkrg qebd"
+      }
+    });
+
+    await transporter.sendMail({
+      from: "varshithakore@gmail.com",
+      to: "koresrivarshitha@gmail.com",
+      subject: "IoT Device Alert",
+      text: "Sensor alert generated from IoT Device Simulator."
+>>>>>>> 23d36293d6a95ed37cbd5d7cf359b9e884897c00
     });
 
     res.json({
