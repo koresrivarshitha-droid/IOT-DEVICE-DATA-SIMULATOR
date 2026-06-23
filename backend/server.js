@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 require("dotenv").config();
-=======
->>>>>>> 23d36293d6a95ed37cbd5d7cf359b9e884897c00
+const path = require("path");
 const nodemailer = require("nodemailer");
 const generateSensorData = require("./simulator");
 const express = require("express");
@@ -13,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(express.json());
+
 
 app.get("/", (req, res) => {
   
@@ -275,7 +273,6 @@ console.log("Email route loaded");
 
 app.post("/api/send-email", async (req, res) => {
   try {
-<<<<<<< HEAD
     const { senderEmail, subjectCategory, messageBody } = req.body;
 
     const transporter = nodemailer.createTransport({
@@ -297,21 +294,6 @@ Sender Email: ${senderEmail}
 Message:
 ${messageBody}
 `
-=======
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "varshithakore@gmail.com",
-        pass: "niqd fboj fkrg qebd"
-      }
-    });
-
-    await transporter.sendMail({
-      from: "varshithakore@gmail.com",
-      to: "koresrivarshitha@gmail.com",
-      subject: "IoT Device Alert",
-      text: "Sensor alert generated from IoT Device Simulator."
->>>>>>> 23d36293d6a95ed37cbd5d7cf359b9e884897c00
     });
 
     res.json({
@@ -336,6 +318,14 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
