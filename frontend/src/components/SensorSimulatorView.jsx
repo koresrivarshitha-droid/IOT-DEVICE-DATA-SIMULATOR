@@ -277,7 +277,7 @@ export default function SensorSimulatorView() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Device selection */}
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-500 dark:text-zinc-400">Target IoT Node</label>
+              <label className="mb-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">Target IoT Node</label>
               <select
                 value={selectedDeviceId}
                 onChange={handleDeviceChange}
@@ -291,7 +291,7 @@ export default function SensorSimulatorView() {
 
             {/* Temperature */}
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <label className="mb-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
                 <Thermometer className="h-3.5 w-3.5 text-red-500" />
                 Temperature (°C)
               </label>
@@ -306,7 +306,7 @@ export default function SensorSimulatorView() {
 
             {/* Humidity */}
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <label className="mb-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
                 <Droplets className="h-3.5 w-3.5 text-blue-500" />
                 Humidity (%)
               </label>
@@ -323,7 +323,7 @@ export default function SensorSimulatorView() {
 
             {/* Voltage */}
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <label className="mb-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
                 <Zap className="h-3.5 w-3.5 text-amber-500" />
                 Voltage (V)
               </label>
@@ -339,7 +339,7 @@ export default function SensorSimulatorView() {
             {/* GPS coordinates */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+                <label className="mb-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
                   <MapPin className="h-3.5 w-3.5 text-zinc-400" />
                   Latitude
                 </label>
@@ -352,7 +352,7 @@ export default function SensorSimulatorView() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+                <label className="mb-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
                   <MapPin className="h-3.5 w-3.5 text-zinc-400" />
                   Longitude
                 </label>

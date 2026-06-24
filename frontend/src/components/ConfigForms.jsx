@@ -540,7 +540,7 @@ export function GeofenceConfig() {
           {/* Coordinates inputs */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-xs font-medium text-zinc-500 flex items-center gap-1">
+              <label className="mb-1 text-xs font-medium text-zinc-500 flex items-center gap-1">
                 <MapPin className="h-3.5 w-3.5 text-zinc-400" /> Center Latitude
               </label>
               <input
@@ -553,7 +553,7 @@ export function GeofenceConfig() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-zinc-500 flex items-center gap-1">
+              <label className="mb-1 text-xs font-medium text-zinc-500 flex items-center gap-1">
                 <MapPin className="h-3.5 w-3.5 text-zinc-400" /> Center Longitude
               </label>
               <input
