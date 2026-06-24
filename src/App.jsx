@@ -1,11 +1,12 @@
+
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
+import Sidebar from '../frontend/src/components/Sidebar';
 import Header from './components/Header';
 import AdminDashboard from './components/AdminDashboard';
 import SensorSimulatorView from './components/SensorSimulatorView';
 import TrainerPanel from './components/TrainerPanel';
 import { AlertConfig, GeofenceConfig, DeviceOnboarding } from './components/ConfigForms';
-import { SimulatorProvider, useSimulator } from './context/SimulatorContext';
+import { SimulatorProvider, useSimulator } from '../frontend/src/context/SimulatorContext';
 import { Plus, X, Mail, Send, Database, CheckCircle2, AlertTriangle, Info } from 'lucide-react';
 
 /* ─────────────────────────────────────────────────────────────────────────────

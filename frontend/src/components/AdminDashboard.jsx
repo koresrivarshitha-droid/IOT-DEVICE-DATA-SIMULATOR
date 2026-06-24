@@ -6,7 +6,7 @@ import autoTable from "jspdf-autotable";
 import ReactECharts from 'echarts-for-react';
 import { 
   useSimulator 
-} from '../../frontend/src/context/SimulatorContext';
+} from '../context/SimulatorContext';
 import { 
   Server, 
   Activity, 

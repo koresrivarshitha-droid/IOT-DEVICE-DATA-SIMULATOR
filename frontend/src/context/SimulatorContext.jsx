@@ -5,7 +5,7 @@ import {
   apiUpdateDeviceStatus,
   apiHealthCheck,
   apiGetDevices
-} from '../api.js';
+} from '../../../src/api.js';
 
 const SimulatorContext = createContext(null);
 
@@ -460,7 +460,7 @@ const formattedDevices = response.map(d => ({
       setDevices(prev => prev.map(d => d.id === 'boiler-01' ? { ...d, scenario: 'runaway' } : d));
       setFeed(prev => [
         {
-          id: `scenario-${Date.now()}-${Math.random()}`,
+          
           timestamp: timeStr,
           type: 'critical',
           message: '🚨 Workshop scenario: "Thermal Runaway" drill active on Industrial Boiler A. Temperature ramping rapidly!',

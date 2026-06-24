@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSimulator } from '../../frontend/src/context/SimulatorContext';
+import { useSimulator } from '../context/SimulatorContext';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { 

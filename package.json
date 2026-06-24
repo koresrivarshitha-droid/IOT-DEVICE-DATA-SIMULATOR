@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "iot-device-simulator-dashboard",
   "private": true,
   "version": "0.0.0",
@@ -38,9 +37,5 @@
     "postcss": "^8.5.15",
     "tailwindcss": "^3.4.17",
     "vite": "^8.0.12"
-=======
-  "dependencies": {
-    "nodemailer": "^9.0.1"
->>>>>>> 23d36293d6a95ed37cbd5d7cf359b9e884897c00
   }
 }

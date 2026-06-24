@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Sun, Moon, Play, Pause, RefreshCw, User } from 'lucide-react';
-import { useSimulator } from '../../frontend/src/context/SimulatorContext';
+import { useSimulator } from '../context/SimulatorContext';
 
 export default function Header({ isDark, setIsDark, activeView }) {
   const { isSimulating, setIsSimulating, simulationSpeed, readings } = useSimulator();

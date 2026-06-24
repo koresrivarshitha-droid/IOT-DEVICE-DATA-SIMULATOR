@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSimulator } from '../../frontend/src/context/SimulatorContext';
+import { useSimulator } from '../context/SimulatorContext';
 import { 
   Bell, 
   Globe, 

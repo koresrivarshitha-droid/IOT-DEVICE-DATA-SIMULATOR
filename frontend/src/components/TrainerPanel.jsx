@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSimulator } from '../../frontend/src/context/SimulatorContext';
+import { useSimulator } from '../context/SimulatorContext';
 import { 
   GraduationCap, 
   CheckCircle,
@@ -221,7 +221,7 @@ export default function TrainerPanel() {
             <div>
               <div className="relative h-44 overflow-hidden group">
                 <img 
-                  src="/smart_home.png" 
+                  src="/smart_home.png?v=1"
                   alt="Smart Home preview" 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
@@ -288,7 +288,7 @@ export default function TrainerPanel() {
             <div>
               <div className="relative h-44 overflow-hidden group">
                 <img 
-                  src="/solar_grid.png" 
+                  src="/solar_grid.png?v=1"
                   alt="Solar Grid preview" 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
@@ -355,7 +355,7 @@ export default function TrainerPanel() {
             <div>
               <div className="relative h-44 overflow-hidden group">
                 <img 
-                  src="/fluid_control.png" 
+                  src="/fluid_control.png?v=1"
                   alt="Fluid control preview" 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
