@@ -5,7 +5,7 @@ import {
   apiUpdateDeviceStatus,
   apiHealthCheck,
   apiGetDevices
-} from '../../../src/api.js';
+} from "../api.js";
 
 const SimulatorContext = createContext(null);
 
