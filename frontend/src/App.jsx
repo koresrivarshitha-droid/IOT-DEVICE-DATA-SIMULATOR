@@ -101,7 +101,7 @@ function AppContent() {
       setSendingStep(2);
       
       // Perform the actual fetch request to FormSubmit API
-      fetch("http://localhost:5000/api/send-email", {
+      fetch("https://iot-device-data-simulator.onrender.com/api/send-email", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
